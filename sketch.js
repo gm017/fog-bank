@@ -54,6 +54,8 @@ function draw() {
   if (ready) {
     // Audio stuff
 
+    osc.frequency.value = pitch;
+
   } else {
     fill(255);
 
@@ -78,7 +80,7 @@ function keyPressed() {
       ready = true;
 
     }
-    synth.triggerAttackRelease(90, 0.01);
+    synth.triggerAttackRelease(pitch, 0.01);
     // else {
     //   osc.stop();
     //   osc2.stop();
