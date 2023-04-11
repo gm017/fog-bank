@@ -107,29 +107,53 @@ function draw() {
     // Audio stuff
 
     if (typeof pitch === 'number' && pitch < 1000) {
-      synth.frequency.value = pitch;
-      fmSynth1.frequency.value = pitch + 40;
-      fmSynth2.frequency.value = pitch + 59;
-      fmSynth3.frequency.value = pitch + 60;
-      fmSynth4.frequency.value = pitch + 70;
-      fmSynth5.frequency.value = pitch + 80;
-      fmSynth6.frequency.value = pitch + 90;
-
-
+      if (button1.live === 1) {
+        fmSynth1.frequency.value = pitch + 40;
+      }
+      if (button2.live === 1) {
+        fmSynth2.frequency.value = pitch + 59;
+      }
+      if (button3.live === 1) {
+        fmSynth3.frequency.value = pitch + 60;
+      }
+      if (button4.live === 1) {
+        fmSynth4.frequency.value = pitch + 70;
+      }
+      if (button5.live === 1) {
+        fmSynth5.frequency.value = pitch + 80;
+      }
+      if (button6.live === 1) {
+        fmSynth6.frequency.value = pitch + 90;
+      }
     } else if (typeof pitch === 'number') {
-      synth.frequency.value = pitch - 500;
-      fmSynth1.frequency.value = pitch + 40 - 500;
-      fmSynth2.frequency.value = pitch + 59 - 500;
-      fmSynth3.frequency.value = pitch + 60 - 500;
-      fmSynth4.frequency.value = pitch + 70 - 500;
-      fmSynth5.frequency.value = pitch + 80 - 500;
-      fmSynth6.frequency.value = pitch + 90 - 500;
+      if (button1.live === 1) {
+        fmSynth1.frequency.value = pitch - 500 + 40;
+      }
+      if (button2.live === 1) {
+        fmSynth2.frequency.value = pitch - 500 + 59;
+      }
+      if (button3.live === 1) {
+        fmSynth3.frequency.value = pitch - 500 + 60;
+      }
+      if (button4.live === 1) {
+        fmSynth4.frequency.value = pitch - 500 + 70;
+      }
+      if (button5.live === 1) {
+        fmSynth5.frequency.value = pitch - 500 + 80;
+      }
+      if (button6.live === 1) {
+        fmSynth6.frequency.value = pitch - 500 + 90;
+      }
+
+
+      // fmSynth1.frequency.value = pitch + 40 - 500;
+      // fmSynth2.frequency.value = pitch + 59 - 500;
+      // fmSynth3.frequency.value = pitch + 60 - 500;
+      // fmSynth4.frequency.value = pitch + 70 - 500;
+      // fmSynth5.frequency.value = pitch + 80 - 500;
+      // fmSynth6.frequency.value = pitch + 90 - 500;
 
     }
-
-  } else {
-    fill(255);
-
 
   }
 
@@ -159,6 +183,8 @@ function keyPressed() {
 
     }
 
+
+
     fmSynth1.triggerAttackRelease(30, 1200)
     fmSynth2.triggerAttackRelease(40, 1200)
     fmSynth3.triggerAttackRelease(50, 1200)
@@ -177,5 +203,53 @@ function keyPressed() {
     //   ready = false;
     //   console.log('not ready');
     // }
+  }
+}
+
+function mouseClicked() {
+
+  if (mouseY > 0) {
+    if (mouseX < 100) {
+      if (button1.live === 0) {
+        button1.live = 1;
+      } else {
+        button1.live = 0;
+      }
+    }
+    if (mouseX > 100 && mouseX < 200) {
+      if (button2.live === 0) {
+        button2.live = 1;
+      } else {
+        button2.live = 0;
+      }
+    }
+    if (mouseX > 200 && mouseX < 300) {
+      if (button3.live === 0) {
+        button3.live = 1;
+      } else {
+        button3.live = 0;
+      }
+    }
+    if (mouseX > 300 && mouseX < 400) {
+      if (button4.live === 0) {
+        button4.live = 1;
+      } else {
+        button4.live = 0;
+      }
+    }
+    if (mouseX > 400 && mouseX < 500) {
+      if (button5.live === 0) {
+        button5.live = 1;
+      } else {
+        button5.live = 0;
+      }
+    }
+    if (mouseX > 500 && mouseX < 600) {
+      if (button6.live === 0) {
+        button6.live = 1;
+      } else {
+        button6.live = 0;
+      }
+    }
   }
 }
