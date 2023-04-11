@@ -1,4 +1,3 @@
-
 class SynthButton {
   constructor(xPos, yPos, size) {
     this.xPos = xPos;
@@ -31,8 +30,6 @@ let fmSynth4;
 let fmSynth5;
 let fmSynth6;
 
-
-
 let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
 
 let pitchArray = [];
@@ -54,11 +51,6 @@ function setup() {
   fmSynth5 = new Tone.FMSynth();
   fmSynth6 = new Tone.FMSynth();
 
-  synth = new Tone.FMSynth();
-
-
-
-
   fmSynth1.toMaster();
   fmSynth2.toMaster();
   fmSynth3.toMaster();
@@ -66,28 +58,11 @@ function setup() {
   fmSynth5.toMaster();
   fmSynth6.toMaster();
 
-
-  synth.toMaster();
-
-  osc = new Tone.Oscillator();
-  osc.frequency.value = 220;
-  osc.connect(Tone.Master);
-
-  osc2 = new Tone.Oscillator();
-  osc2.frequency.value = 341;
-  osc2.connect(Tone.Master);
-
-  lfo = new Tone.LFO("10hz", 110, 930);
-  lfo.connect(osc.frequency);
-
-
-
   setInterval(() => {
     if (typeof pitch === 'number') {
       pitchArray.push(Math.round(pitch));
     }
   }, 500);
-
 
   button1 = new SynthButton(0, 0, 100);
   button2 = new SynthButton(100, 0, 100);
@@ -108,22 +83,22 @@ function draw() {
 
     if (typeof pitch === 'number' && pitch < 1000) {
       if (button1.live === 1) {
-        fmSynth1.frequency.value = pitch + 40;
+        fmSynth1.frequency.value = pitch;
       }
       if (button2.live === 1) {
-        fmSynth2.frequency.value = pitch + 59;
+        fmSynth2.frequency.value = pitch;
       }
       if (button3.live === 1) {
-        fmSynth3.frequency.value = pitch + 60;
+        fmSynth3.frequency.value = pitch;
       }
       if (button4.live === 1) {
-        fmSynth4.frequency.value = pitch + 70;
+        fmSynth4.frequency.value = pitch;
       }
       if (button5.live === 1) {
-        fmSynth5.frequency.value = pitch + 80;
+        fmSynth5.frequency.value = pitch;
       }
       if (button6.live === 1) {
-        fmSynth6.frequency.value = pitch + 90;
+        fmSynth6.frequency.value = pitch;
       }
     } else if (typeof pitch === 'number') {
       if (button1.live === 1) {
@@ -144,20 +119,9 @@ function draw() {
       if (button6.live === 1) {
         fmSynth6.frequency.value = pitch - 500 + 90;
       }
-
-
-      // fmSynth1.frequency.value = pitch + 40 - 500;
-      // fmSynth2.frequency.value = pitch + 59 - 500;
-      // fmSynth3.frequency.value = pitch + 60 - 500;
-      // fmSynth4.frequency.value = pitch + 70 - 500;
-      // fmSynth5.frequency.value = pitch + 80 - 500;
-      // fmSynth6.frequency.value = pitch + 90 - 500;
-
     }
-
   }
 
-  // fill(255, 0, 0);
   noStroke();
   button1.display();
   button2.display();
@@ -173,17 +137,8 @@ function keyPressed() {
   if (key === 'p') {
 
     if (!ready) {
-
-      // osc.start();
-      // osc2.start();
-      // lfo.start();
-
-
       ready = true;
-
     }
-
-
 
     fmSynth1.triggerAttackRelease(30, 1200)
     fmSynth2.triggerAttackRelease(40, 1200)
@@ -192,17 +147,49 @@ function keyPressed() {
     fmSynth5.triggerAttackRelease(70, 1200)
     fmSynth6.triggerAttackRelease(80, 1200)
 
-    // synth.triggerAttackRelease(pitch, 1000);
+  }
 
-    // else {
-    //   osc.stop();
-    //   osc2.stop();
-    //   lfo.stop();
-
-
-    //   ready = false;
-    //   console.log('not ready');
-    // }
+  if (key === 'q') {
+    if (button1.live === 0) {
+      button1.live = 1;
+    } else {
+      button1.live = 0;
+    }
+  }
+  if (key === 'w') {
+    if (button2.live === 0) {
+      button2.live = 1;
+    } else {
+      button2.live = 0;
+    }
+  }
+  if (key === 'e') {
+    if (button3.live === 0) {
+      button3.live = 1;
+    } else {
+      button3.live = 0;
+    }
+  }
+  if (key === 'r') {
+    if (button4.live === 0) {
+      button4.live = 1;
+    } else {
+      button4.live = 0;
+    }
+  }
+  if (key === 't') {
+    if (button5.live === 0) {
+      button5.live = 1;
+    } else {
+      button5.live = 0;
+    }
+  }
+  if (key === 'y') {
+    if (button6.live === 0) {
+      button6.live = 1;
+    } else {
+      button6.live = 0;
+    }
   }
 }
 
