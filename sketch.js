@@ -41,7 +41,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(600, 100);
+  createCanvas(600, 100, WEBGL);
   background(0);
 
   fmSynth1 = new Tone.FMSynth();
@@ -122,6 +122,8 @@ function draw() {
     }
   }
 
+  push();
+  translate(-width / 2, -height / 2, 0);
   noStroke();
   button1.display();
   button2.display();
@@ -129,7 +131,7 @@ function draw() {
   button4.display();
   button5.display();
   button6.display();
-
+  pop();
 }
 
 function keyPressed() {
