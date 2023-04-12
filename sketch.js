@@ -30,6 +30,10 @@ let fmSynth4;
 let fmSynth5;
 let fmSynth6;
 
+let distCount = 3;
+
+let dist;
+
 let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
 
 let pitchArray = [];
@@ -44,12 +48,17 @@ function setup() {
   createCanvas(600, 100, WEBGL);
   background(0);
 
-  fmSynth1 = new Tone.FMSynth();
-  fmSynth2 = new Tone.FMSynth();
-  fmSynth3 = new Tone.FMSynth();
-  fmSynth4 = new Tone.FMSynth();
-  fmSynth5 = new Tone.FMSynth();
-  fmSynth6 = new Tone.FMSynth();
+  dist = new Tone.Chebyshev(distCount).toMaster();
+
+  lfo = new Tone.LFO("5hz", 200, 400).start();
+
+
+  fmSynth1 = new Tone.FMSynth().connect(dist);
+  fmSynth2 = new Tone.FMSynth().connect(dist);
+  fmSynth3 = new Tone.FMSynth().connect(dist);
+  fmSynth4 = new Tone.FMSynth().connect(dist);
+  fmSynth5 = new Tone.FMSynth().connect(dist);
+  fmSynth6 = new Tone.FMSynth().connect(dist);
 
   fmSynth1.toMaster();
   fmSynth2.toMaster();
@@ -74,6 +83,8 @@ function setup() {
 }
 
 function draw() {
+
+
   background(0);
   if (typeof pitch === 'number') {
     text(pitch, width / 2, height / 2);
@@ -83,22 +94,30 @@ function draw() {
 
     if (typeof pitch === 'number' && pitch < 1000) {
       if (button1.live === 1) {
-        fmSynth1.frequency.value = pitch;
+        fmSynth1.frequency.value = pitch + 1000;
+        fmSynth1.harmonicity.value = pitch / 100;
+
       }
       if (button2.live === 1) {
-        fmSynth2.frequency.value = pitch;
+        fmSynth2.frequency.value = pitch + 1000;
+        fmSynth2.harmonicity.value = pitch / 200;
       }
       if (button3.live === 1) {
-        fmSynth3.frequency.value = pitch;
+        fmSynth3.frequency.value = pitch + 1000;
+        fmSynth3.harmonicity.value = pitch / 300;
       }
       if (button4.live === 1) {
-        fmSynth4.frequency.value = pitch;
+        fmSynth4.frequency.value = pitch + 1000;
+        fmSynth4.harmonicity.value = pitch / 400;
+
       }
       if (button5.live === 1) {
-        fmSynth5.frequency.value = pitch;
+        fmSynth5.frequency.value = pitch + 1000;
+        fmSynth5.harmonicity.value = pitch / 500;
       }
       if (button6.live === 1) {
-        fmSynth6.frequency.value = pitch;
+        fmSynth6.frequency.value = pitch + 1000;
+        fmSynth6.harmonicity.value = pitch / 600;
       }
     } else if (typeof pitch === 'number') {
       if (button1.live === 1) {
@@ -120,6 +139,13 @@ function draw() {
         fmSynth6.frequency.value = pitch - 500 + 90;
       }
     }
+  }
+
+
+  if (distCount < 100) {
+    distCount += 0.1;
+  } else {
+    distCount = 3;
   }
 
   push();
