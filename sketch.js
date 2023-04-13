@@ -32,6 +32,8 @@ let fmSynth6;
 
 let distCount = 3;
 
+let presetCount = 0;
+
 let dist;
 
 let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
@@ -162,19 +164,43 @@ function draw() {
 
 function keyPressed() {
 
+  if (!ready) {
+    ready = true;
+  }
+
+  if (key === 'l') {
+    if (presetCount === 0) {
+      presetCount = 1;
+    } else {
+      presetCount = 0;
+    }
+  }
+
   if (key === 'p') {
 
-    if (!ready) {
-      ready = true;
+    console.log(presetCount);
+
+    if (presetCount === 0) {
+
+      fmSynth1.triggerAttackRelease(40, 1200);
+      fmSynth2.triggerAttackRelease(41, 1200);
+      fmSynth3.triggerAttackRelease(42, 1200);
+      fmSynth4.triggerAttackRelease(193, 1200);
+      fmSynth5.triggerAttackRelease(194, 1200);
+      fmSynth6.triggerAttackRelease(95, 1200);
+
     }
 
-    fmSynth1.triggerAttackRelease(30, 1200)
-    fmSynth2.triggerAttackRelease(40, 1200)
-    fmSynth3.triggerAttackRelease(50, 1200)
-    fmSynth4.triggerAttackRelease(60, 1200)
-    fmSynth5.triggerAttackRelease(70, 1200)
-    fmSynth6.triggerAttackRelease(80, 1200)
+    if (presetCount === 1) {
 
+      fmSynth1.frequency.value = 101;
+      fmSynth2.frequency.value = 105;
+      fmSynth3.frequency.value = 109;
+      fmSynth4.frequency.value = 401;
+      fmSynth5.frequency.value = 405;
+      fmSynth6.frequency.value = 409;
+
+    }
   }
 
   if (key === 'q') {
