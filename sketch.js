@@ -1,19 +1,6 @@
-class SynthButton {
-  constructor(xPos, yPos, size) {
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.size = size;
-    this.live = 0;
-  }
-  display() {
-    if (this.live === 0) {
-      fill(255, 0, 130);
-    } else {
-      fill(0, 255, 0);
-    }
-    rect(this.xPos, this.yPos, this.size, this.size);
-  }
-}
+
+
+let pitchDisplay;
 
 let button1;
 
@@ -30,20 +17,39 @@ let fmSynth4;
 let fmSynth5;
 let fmSynth6;
 
+let fire;
+let qImg;
+let wImg;
+let eImg;
+let rImg;
+let tImg;
+let yImg;
+
 let distCount = 3;
 
 let presetCount = 0;
-
+let presetsArray = [];
 let dist;
+
 
 // let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
 // let dronesArray = [];
 
 let pitchArray = [];
 
+function preload() {
+  fire = loadImage('img/fire.jpeg');
+  qImg = loadImage('img/q.png');
+  wImg = loadImage('img/w.png');
+  eImg = loadImage('img/e.png');
+  rImg = loadImage('img/r.png');
+  tImg = loadImage('img/t.png');
+  yImg = loadImage('img/y.png');
+}
 
-function setup() {
-  createCanvas(600, 100, WEBGL);
+
+function setup() { //BEGIN SETUP
+  createCanvas(600, 200, WEBGL);
   background(0);
 
   dist = new Tone.Chebyshev(distCount).toMaster();
@@ -70,18 +76,47 @@ function setup() {
     }
   }, 500);
 
-  button1 = new SynthButton(0, 0, 100);
-  button2 = new SynthButton(100, 0, 100);
-  button3 = new SynthButton(200, 0, 100);
-  button4 = new SynthButton(300, 0, 100);
-  button5 = new SynthButton(400, 0, 100);
-  button6 = new SynthButton(500, 0, 100);
+  button1 = new SynthButton(0, 0, 100, qImg);
+  button2 = new SynthButton(100, 0, 100, wImg);
+  button3 = new SynthButton(200, 0, 100, eImg);
+  button4 = new SynthButton(300, 0, 100, rImg);
+  button5 = new SynthButton(400, 0, 100, tImg);
+  button6 = new SynthButton(500, 0, 100, yImg);
+
+  presetDisplay1 = new PresetDisplays(0, 100, 100, 255, false, 0);
+  presetDisplay2 = new PresetDisplays(100, 100, 100, 255, false, 1);
+  presetDisplay3 = new PresetDisplays(200, 100, 100, 255, false, 2);
+  presetDisplay4 = new PresetDisplays(300, 100, 100, 255, false, 3);
+  presetDisplay5 = new PresetDisplays(400, 100, 100, 255, false, 4);
+  presetDisplay6 = new PresetDisplays(500, 100, 100, 255, false, 5);
+
+
+  presetValues1 = new PresetValues(40, 41, 42, 193, 194, 95);
+  presetValues2 = new PresetValues(101, 105, 109, 401, 405);
+  presetValues3 = new PresetValues(200, 202, 209, 601, 605);
+  presetValues4 = new PresetValues(301, 305, 309, 801, 805);
+  presetValues5 = new PresetValues(401, 405, 409, 1001, 1005);
+  presetValues6 = new PresetValues(501, 505, 509, 1201, 1205);
+
+  presetsArray = [presetValues1, presetValues2, presetValues3, presetValues4, presetValues5, presetValues6];
+
 }
 
-function draw() {
+function draw() { //BEGIN DRAW
+  background(0);
   voiceControlPitch();
   increaseDistortion();
   displayButtons();
+  displayPresets();
+
+  pitchDisplay = map(pitch, 0, pitch, 0, 100);
+  push();
+  translate(-width / 2, 0, 0);
+  translate(pitchDisplay, 0, 0);
+  fill(0, 255, 0)
+  box(50)
+  pop();
+
 }
 
 
@@ -138,6 +173,19 @@ function voiceControlPitch() {
   }
 }
 
+function displayPresets() {
+  push();
+  translate(-width / 2, -height / 2, 0);
+  noStroke();
+  presetDisplay1.display();
+  presetDisplay2.display();
+  presetDisplay3.display();
+  presetDisplay4.display();
+  presetDisplay5.display();
+  presetDisplay6.display();
+  pop();
+}
+
 function displayButtons() {
   push();
   translate(-width / 2, -height / 2, 0);
@@ -159,7 +207,32 @@ function increaseDistortion() {
   }
 }
 
+function switchPreset(vals) {
+  fmSynth1.frequency.value = vals.synth1Freq;
+  fmSynth2.frequency.value = vals.synth2Freq;
+  fmSynth3.frequency.value = vals.synth3Freq;
+  fmSynth4.frequency.value = vals.synth4Freq;
+  fmSynth5.frequency.value = vals.synth5Freq;
+  fmSynth6.frequency.value = vals.synth6Freq;
+}
+
 function keyPressed() {
+
+  if (keyCode === RIGHT_ARROW && presetCount < 5) {
+    presetCount++
+    switchPreset(presetsArray[presetCount]);
+  } else if (keyCode === RIGHT_ARROW && presetCount === 5) {
+    presetCount = 0;
+    switchPreset(presetsArray[presetCount]);
+  }
+  if (keyCode === LEFT_ARROW && presetCount > 0) {
+    presetCount--
+    switchPreset(presetsArray[presetCount]);
+  } else if (keyCode === LEFT_ARROW && presetCount === 0) {
+    presetCount = 5;
+    switchPreset(presetsArray[presetCount]);
+
+  }
 
   if (!playing) {
     playing = true;

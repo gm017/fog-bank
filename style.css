@@ -1,8 +1,11 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
 canvas {
   display: block;
+  border: 7px ridge red;
+  margin: 5px;
 }
