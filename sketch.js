@@ -17,7 +17,7 @@ class SynthButton {
 
 let button1;
 
-let ready = false;
+let playing = false;
 let osc;
 let osc2;
 let lfo;
@@ -88,10 +88,8 @@ function draw() {
 
 
   background(0);
-  if (typeof pitch === 'number') {
-    text(pitch, width / 2, height / 2);
-  }
-  if (ready) {
+
+  if (playing) {
     // Audio stuff
 
     if (typeof pitch === 'number' && pitch < 1000) {
@@ -164,8 +162,8 @@ function draw() {
 
 function keyPressed() {
 
-  if (!ready) {
-    ready = true;
+  if (!playing) {
+    playing = true;
   }
 
   if (key === 'l') {
