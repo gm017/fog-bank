@@ -22,7 +22,7 @@
 <html>
 
 <head>
-  <title>Pitch Detector</title>
+  <title>XMAS RECORD</title>
   <link href='http://fonts.googleapis.com/css?family=Alike' rel='stylesheet' type='text/css'>
   <style>
     body {
@@ -99,14 +99,8 @@
 
   <script src="sketch.js"></script>
   <p><button onclick="startPitchDetect();">Start</button></p>
-  <p>
-    <button onclick="this.innerText = togglePlayback()">use demo audio</button>
-    <button onclick="toggleLiveInput()">use live input</button>
-    <button onclick="toggleOscillator()">use oscillator</button>
-    <!--<button onclick="updatePitch(0);">sample</button>-->
-  </p>
 
-  <div id="detector" class="vague">
+  <div style="display: none;" id="detector" class="vague">
     <div class="pitch"><span id="pitch">--</span>Hz</div>
     <div class="note"><span id="note">--</span></div>
     <canvas id="output" width=300 height=42></canvas>

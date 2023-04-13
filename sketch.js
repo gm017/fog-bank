@@ -36,15 +36,11 @@ let presetCount = 0;
 
 let dist;
 
-let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
+// let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
+// let dronesArray = [];
 
 let pitchArray = [];
 
-let dronesArray = [];
-
-function preload() {
-
-}
 
 function setup() {
   createCanvas(600, 100, WEBGL);
@@ -53,7 +49,6 @@ function setup() {
   dist = new Tone.Chebyshev(distCount).toMaster();
 
   lfo = new Tone.LFO("5hz", 200, 400).start();
-
 
   fmSynth1 = new Tone.FMSynth().connect(dist);
   fmSynth2 = new Tone.FMSynth().connect(dist);
@@ -81,17 +76,18 @@ function setup() {
   button4 = new SynthButton(300, 0, 100);
   button5 = new SynthButton(400, 0, 100);
   button6 = new SynthButton(500, 0, 100);
-
 }
 
 function draw() {
+  voiceControlPitch();
+  increaseDistortion();
+  displayButtons();
+}
 
 
-  background(0);
-
+function voiceControlPitch() {
   if (playing) {
     // Audio stuff
-
     if (typeof pitch === 'number' && pitch < 1000) {
       if (button1.live === 1) {
         fmSynth1.frequency.value = pitch + 1000;
@@ -140,14 +136,9 @@ function draw() {
       }
     }
   }
+}
 
-
-  if (distCount < 100) {
-    distCount += 0.1;
-  } else {
-    distCount = 3;
-  }
-
+function displayButtons() {
   push();
   translate(-width / 2, -height / 2, 0);
   noStroke();
@@ -158,6 +149,14 @@ function draw() {
   button5.display();
   button6.display();
   pop();
+}
+
+function increaseDistortion() {
+  if (distCount < 100) {
+    distCount += 0.1;
+  } else {
+    distCount = 3;
+  }
 }
 
 function keyPressed() {
@@ -247,7 +246,7 @@ function keyPressed() {
 
 function mouseClicked() {
 
-  if (mouseY > 0) {
+  if (mouseY > 0 && mouseY < 100) {
     if (mouseX < 100) {
       if (button1.live === 0) {
         button1.live = 1;
@@ -292,3 +291,4 @@ function mouseClicked() {
     }
   }
 }
+
