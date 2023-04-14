@@ -1,10 +1,11 @@
 class SynthButton {
-    constructor(xPos, yPos, size, boxTexture) {
+    constructor(xPos, yPos, size, boxTexture, delayConnected) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.size = size;
         this.live = 0;
         this.boxTexture = boxTexture;
+        this.delayConnected = delayConnected;
     }
     display() {
         if (this.live === 0) {

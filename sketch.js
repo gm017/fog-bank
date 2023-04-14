@@ -18,6 +18,7 @@ let fmSynth5;
 let fmSynth6;
 
 let fire;
+let cloud;
 let qImg;
 let wImg;
 let eImg;
@@ -30,6 +31,7 @@ let distCount = 3;
 let presetCount = 0;
 let presetsArray = [];
 let dist;
+let delay;
 
 
 // let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
@@ -39,6 +41,7 @@ let pitchArray = [];
 
 function preload() {
   fire = loadImage('img/fire.jpeg');
+  cloud = loadImage('img/cloud.jpeg');
   qImg = loadImage('img/q.png');
   wImg = loadImage('img/w.png');
   eImg = loadImage('img/e.png');
@@ -47,41 +50,49 @@ function preload() {
   yImg = loadImage('img/y.png');
 }
 
-
 function setup() { //BEGIN SETUP
-  createCanvas(600, 200, WEBGL);
-  background(0);
+  createCanvas(600, 300, WEBGL);
+  background(255, 100, 100);
 
   dist = new Tone.Chebyshev(distCount).toMaster();
+  delay = new Tone.FeedbackDelay("4n", 0.2).toMaster();
 
-  lfo = new Tone.LFO("5hz", 200, 400).start();
+  // lfo = new Tone.LFO("5hz", 200, 400).start();
 
-  fmSynth1 = new Tone.FMSynth().connect(dist);
-  fmSynth2 = new Tone.FMSynth().connect(dist);
-  fmSynth3 = new Tone.FMSynth().connect(dist);
-  fmSynth4 = new Tone.FMSynth().connect(dist);
-  fmSynth5 = new Tone.FMSynth().connect(dist);
-  fmSynth6 = new Tone.FMSynth().connect(dist);
+  fmSynth1 = new Tone.FMSynth();
+  fmSynth2 = new Tone.FMSynth();
+  fmSynth3 = new Tone.FMSynth();
+  fmSynth4 = new Tone.FMSynth();
+  fmSynth5 = new Tone.FMSynth();
+  fmSynth6 = new Tone.FMSynth();
 
-  fmSynth1.toMaster();
-  fmSynth2.toMaster();
-  fmSynth3.toMaster();
-  fmSynth4.toMaster();
-  fmSynth5.toMaster();
-  fmSynth6.toMaster();
+  fmSynth1.chain(dist, Tone.Master);
+  fmSynth2.chain(dist, Tone.Master);
+  fmSynth3.chain(dist, Tone.Master);
+  fmSynth4.chain(dist, Tone.Master);
+  fmSynth5.chain(dist, Tone.Master);
+  fmSynth6.chain(dist, Tone.Master);
 
-  setInterval(() => {
-    if (typeof pitch === 'number') {
-      pitchArray.push(Math.round(pitch));
-    }
-  }, 500);
 
-  button1 = new SynthButton(0, 0, 100, qImg);
-  button2 = new SynthButton(100, 0, 100, wImg);
-  button3 = new SynthButton(200, 0, 100, eImg);
-  button4 = new SynthButton(300, 0, 100, rImg);
-  button5 = new SynthButton(400, 0, 100, tImg);
-  button6 = new SynthButton(500, 0, 100, yImg);
+  // fmSynth1.toMaster();
+  // fmSynth2.toMaster();
+  // fmSynth3.toMaster();
+  // fmSynth4.toMaster();
+  // fmSynth5.toMaster();
+  // fmSynth6.toMaster();
+
+  // setInterval(() => {
+  //   if (typeof pitch === 'number') {
+  //     pitchArray.push(Math.round(pitch));
+  //   }
+  // }, 500);
+
+  button1 = new SynthButton(0, 0, 100, qImg, false);
+  button2 = new SynthButton(100, 0, 100, wImg, false);
+  button3 = new SynthButton(200, 0, 100, eImg, false);
+  button4 = new SynthButton(300, 0, 100, rImg, false);
+  button5 = new SynthButton(400, 0, 100, tImg, false);
+  button6 = new SynthButton(500, 0, 100, yImg, false);
 
   presetDisplay1 = new PresetDisplays(0, 100, 100, 255, false, 0);
   presetDisplay2 = new PresetDisplays(100, 100, 100, 255, false, 1);
@@ -89,7 +100,6 @@ function setup() { //BEGIN SETUP
   presetDisplay4 = new PresetDisplays(300, 100, 100, 255, false, 3);
   presetDisplay5 = new PresetDisplays(400, 100, 100, 255, false, 4);
   presetDisplay6 = new PresetDisplays(500, 100, 100, 255, false, 5);
-
 
   presetValues1 = new PresetValues(40, 41, 42, 193, 194, 95);
   presetValues2 = new PresetValues(101, 105, 109, 401, 405);
@@ -100,22 +110,27 @@ function setup() { //BEGIN SETUP
 
   presetsArray = [presetValues1, presetValues2, presetValues3, presetValues4, presetValues5, presetValues6];
 
+  delayConnector = new DelayConnectors(0, 100, 25);
+
 }
 
 function draw() { //BEGIN DRAW
-  background(0);
+  background(255, 100, 100);
   voiceControlPitch();
   increaseDistortion();
   displayButtons();
   displayPresets();
+  delayConnector.display();
 
-  pitchDisplay = map(pitch, 0, pitch, 0, 100);
-  push();
-  translate(-width / 2, 0, 0);
-  translate(pitchDisplay, 0, 0);
-  fill(0, 255, 0)
-  box(50)
-  pop();
+  //NEED TO FIX THIS
+
+  // pitchDisplay = map(pitch, 0, pitch, 0, 100);
+  // push();
+  // translate(-width / 2, 0, 0);
+  // translate(pitchDisplay, 0, 0);
+  // fill(0, 255, 0)
+  // box(50)
+  // pop();
 
 }
 
@@ -126,48 +141,55 @@ function voiceControlPitch() {
     if (typeof pitch === 'number' && pitch < 1000) {
       if (button1.live === 1) {
         fmSynth1.frequency.value = pitch + 1000;
-        fmSynth1.harmonicity.value = pitch / 100;
+        fmSynth1.harmonicity.value = 0.5;
 
       }
       if (button2.live === 1) {
         fmSynth2.frequency.value = pitch + 1000;
-        fmSynth2.harmonicity.value = pitch / 200;
+        fmSynth2.harmonicity.value = 2;
       }
       if (button3.live === 1) {
         fmSynth3.frequency.value = pitch + 1000;
-        fmSynth3.harmonicity.value = pitch / 300;
+        fmSynth3.harmonicity.value = 3;
       }
       if (button4.live === 1) {
         fmSynth4.frequency.value = pitch + 1000;
-        fmSynth4.harmonicity.value = pitch / 400;
+        fmSynth4.harmonicity.value = 4.2;
 
       }
       if (button5.live === 1) {
         fmSynth5.frequency.value = pitch + 1000;
-        fmSynth5.harmonicity.value = pitch / 500;
+        fmSynth5.harmonicity.value = 5.1;
       }
       if (button6.live === 1) {
         fmSynth6.frequency.value = pitch + 1000;
-        fmSynth6.harmonicity.value = pitch / 600;
+        fmSynth6.harmonicity.value = 6.6;
       }
     } else if (typeof pitch === 'number') {
       if (button1.live === 1) {
         fmSynth1.frequency.value = pitch - 500 + 40;
+        fmSynth1.harmonicity.value = -0.5;
+
       }
       if (button2.live === 1) {
-        fmSynth2.frequency.value = pitch - 500 + 59;
+        fmSynth2.frequency.value = pitch * 2 - 500 + 59;
+        fmSynth2.harmonicity.value = -2;
       }
       if (button3.live === 1) {
-        fmSynth3.frequency.value = pitch - 500 + 60;
+        fmSynth3.frequency.value = pitch * 1.2 - 500 + 60;
+        fmSynth3.harmonicity.value = -3;
       }
       if (button4.live === 1) {
         fmSynth4.frequency.value = pitch - 500 + 70;
+        fmSynth4.harmonicity.value = -4.2;
       }
       if (button5.live === 1) {
         fmSynth5.frequency.value = pitch - 500 + 80;
+        fmSynth5.harmonicity.value = -5.1;
       }
       if (button6.live === 1) {
         fmSynth6.frequency.value = pitch - 500 + 90;
+        fmSynth6.harmonicity.value = -6.6;
       }
     }
   }
@@ -315,6 +337,61 @@ function keyPressed() {
       button6.live = 0;
     }
   }
+  if (key === 'z') {
+    if (button1.delayConnected) {
+      button1.delayConnected = false;
+      delay.disconnect(fmSynth1);
+    } else {
+      button1.delayConnected = true;
+      fmSynth1.chain(dist, delay, Tone.Master);
+    }
+  }
+  if (key === 'x') {
+    if (button2.delayConnected) {
+      button2.delayConnected = false;
+      delay.disconnect(fmSynth2);
+    } else {
+      button2.delayConnected = true;
+      fmSynth2.chain(dist, delay, Tone.Master);
+    }
+  }
+  if (key === 'c') {
+    if (button3.delayConnected) {
+      button3.delayConnected = false;
+      delay.disconnect(fmSynth3);
+    } else {
+      button3.delayConnected = true;
+      fmSynth3.chain(dist, delay, Tone.Master);
+    }
+  }
+  if (key === 'v') {
+    if (button4.delayConnected) {
+      button4.delayConnected = false;
+      delay.disconnect(fmSynth4);
+    } else {
+      button4.delayConnected = true;
+      fmSynth4.chain(dist, delay, Tone.Master);
+    }
+  }
+  if (key === 'b') {
+    if (button5.delayConnected) {
+      button5.delayConnected = false;
+      delay.disconnect(fmSynth5);
+    } else {
+      button5.delayConnected = true;
+      fmSynth5.chain(dist, delay, Tone.Master);
+    }
+  }
+  if (key === 'n') {
+    if (button6.delayConnected) {
+      button6.delayConnected = false;
+      delay.disconnect(fmSynth6);
+    } else {
+      button6.delayConnected = true;
+      fmSynth6.chain(dist, delay, Tone.Master);
+    }
+  }
+
 }
 
 function mouseClicked() {
