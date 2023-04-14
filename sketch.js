@@ -34,6 +34,7 @@ let presetsArray = [];
 let dist;
 let delay;
 
+let presetBeat = false;
 
 // let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
 // let dronesArray = [];
@@ -98,7 +99,7 @@ function setup() { //BEGIN SETUP
 
   presetsArray = [presetValues1, presetValues2, presetValues3, presetValues4, presetValues5, presetValues6];
 
-  delayConnector = new DelayConnectors(0, 100, 50);
+  delayConnector = new DelayConnectors(0, 50, 25);
   distConnector = new DistConnectors(0, 200, 25);
 
 }
@@ -122,6 +123,16 @@ function draw() { //BEGIN DRAW
   // box(50)
   // pop();
 
+  if (presetBeat) {
+    if (presetCount < 5) {
+      if (frameCount % 30 === 0) {
+        presetCount++;
+        switchPreset(presetsArray[presetCount]);
+      }
+    } else if (frameCount % 30 === 0 && presetCount === 5) {
+      presetCount = 0;
+    }
+  }
 }
 
 
@@ -399,6 +410,11 @@ function keyPressed() {
 }
 
 function mouseClicked() {
+
+
+  if (mouseY > 300) {
+    presetBeat = true;
+  }
 
   if (mouseY > 0 && mouseY < 100) {
     if (mouseX < 100) {
