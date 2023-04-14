@@ -19,6 +19,7 @@ let fmSynth6;
 
 let fire;
 let cloud;
+let compass;
 let qImg;
 let wImg;
 let eImg;
@@ -42,6 +43,7 @@ let pitchArray = [];
 function preload() {
   fire = loadImage('img/fire.jpeg');
   cloud = loadImage('img/cloud.jpeg');
+  compass = loadImage('img/compass.jpeg');
   qImg = loadImage('img/q.png');
   wImg = loadImage('img/w.png');
   eImg = loadImage('img/e.png');
@@ -51,11 +53,11 @@ function preload() {
 }
 
 function setup() { //BEGIN SETUP
-  createCanvas(600, 300, WEBGL);
+  createCanvas(600, 400, WEBGL);
   background(255, 100, 100);
 
-  dist = new Tone.Chebyshev(distCount).toMaster();
-  delay = new Tone.FeedbackDelay("4n", 0.2).toMaster();
+  dist = new Tone.Chebyshev(distCount);
+  delay = new Tone.FeedbackDelay("4n", 0.2);
 
   // lfo = new Tone.LFO("5hz", 200, 400).start();
 
@@ -73,26 +75,12 @@ function setup() { //BEGIN SETUP
   fmSynth5.chain(dist, Tone.Master);
   fmSynth6.chain(dist, Tone.Master);
 
-
-  // fmSynth1.toMaster();
-  // fmSynth2.toMaster();
-  // fmSynth3.toMaster();
-  // fmSynth4.toMaster();
-  // fmSynth5.toMaster();
-  // fmSynth6.toMaster();
-
-  // setInterval(() => {
-  //   if (typeof pitch === 'number') {
-  //     pitchArray.push(Math.round(pitch));
-  //   }
-  // }, 500);
-
-  button1 = new SynthButton(0, 0, 100, qImg, false);
-  button2 = new SynthButton(100, 0, 100, wImg, false);
-  button3 = new SynthButton(200, 0, 100, eImg, false);
-  button4 = new SynthButton(300, 0, 100, rImg, false);
-  button5 = new SynthButton(400, 0, 100, tImg, false);
-  button6 = new SynthButton(500, 0, 100, yImg, false);
+  button1 = new SynthButton(0, 0, 100, qImg, false, true);
+  button2 = new SynthButton(100, 0, 100, wImg, false, true);
+  button3 = new SynthButton(200, 0, 100, eImg, false, true);
+  button4 = new SynthButton(300, 0, 100, rImg, false, true);
+  button5 = new SynthButton(400, 0, 100, tImg, false, true);
+  button6 = new SynthButton(500, 0, 100, yImg, false, true);
 
   presetDisplay1 = new PresetDisplays(0, 100, 100, 255, false, 0);
   presetDisplay2 = new PresetDisplays(100, 100, 100, 255, false, 1);
@@ -102,15 +90,16 @@ function setup() { //BEGIN SETUP
   presetDisplay6 = new PresetDisplays(500, 100, 100, 255, false, 5);
 
   presetValues1 = new PresetValues(40, 41, 42, 193, 194, 95);
-  presetValues2 = new PresetValues(101, 105, 109, 401, 405);
-  presetValues3 = new PresetValues(200, 202, 209, 601, 605);
-  presetValues4 = new PresetValues(301, 305, 309, 801, 805);
-  presetValues5 = new PresetValues(401, 405, 409, 1001, 1005);
-  presetValues6 = new PresetValues(501, 505, 509, 1201, 1205);
+  presetValues2 = new PresetValues(101, 105, 109, 401, 405, 1223);
+  presetValues3 = new PresetValues(200, 202, 209, 601, 605, 1211);
+  presetValues4 = new PresetValues(301, 305, 309, 801, 805, 1220);
+  presetValues5 = new PresetValues(401, 405, 409, 1001, 1005, 1277);
+  presetValues6 = new PresetValues(501, 505, 509, 1201, 1205, 1277);
 
   presetsArray = [presetValues1, presetValues2, presetValues3, presetValues4, presetValues5, presetValues6];
 
-  delayConnector = new DelayConnectors(0, 100, 25);
+  delayConnector = new DelayConnectors(0, 100, 50);
+  distConnector = new DistConnectors(0, 200, 25);
 
 }
 
@@ -119,8 +108,9 @@ function draw() { //BEGIN DRAW
   voiceControlPitch();
   increaseDistortion();
   displayButtons();
-  displayPresets();
   delayConnector.display();
+  // distConnector.display();
+  displayPresets();
 
   //NEED TO FIX THIS
 
@@ -260,39 +250,19 @@ function keyPressed() {
     playing = true;
   }
 
-  if (key === 'l') {
-    if (presetCount === 0) {
-      presetCount = 1;
-    } else {
-      presetCount = 0;
-    }
-  }
 
   if (key === 'p') {
 
     console.log(presetCount);
 
-    if (presetCount === 0) {
+    fmSynth1.triggerAttackRelease(40, 1200);
+    fmSynth2.triggerAttackRelease(41, 1200);
+    fmSynth3.triggerAttackRelease(42, 1200);
+    fmSynth4.triggerAttackRelease(193, 1200);
+    fmSynth5.triggerAttackRelease(194, 1200);
+    fmSynth6.triggerAttackRelease(95, 1200);
 
-      fmSynth1.triggerAttackRelease(40, 1200);
-      fmSynth2.triggerAttackRelease(41, 1200);
-      fmSynth3.triggerAttackRelease(42, 1200);
-      fmSynth4.triggerAttackRelease(193, 1200);
-      fmSynth5.triggerAttackRelease(194, 1200);
-      fmSynth6.triggerAttackRelease(95, 1200);
 
-    }
-
-    if (presetCount === 1) {
-
-      fmSynth1.frequency.value = 101;
-      fmSynth2.frequency.value = 105;
-      fmSynth3.frequency.value = 109;
-      fmSynth4.frequency.value = 401;
-      fmSynth5.frequency.value = 405;
-      fmSynth6.frequency.value = 409;
-
-    }
   }
 
   if (key === 'q') {
@@ -337,60 +307,94 @@ function keyPressed() {
       button6.live = 0;
     }
   }
-  if (key === 'z') {
+
+
+  if (key === 'a') {
     if (button1.delayConnected) {
       button1.delayConnected = false;
+      button2.delayConnected = false;
+      button3.delayConnected = false;
+      button4.delayConnected = false;
+      button5.delayConnected = false;
+      button6.delayConnected = false;
       delay.disconnect(fmSynth1);
+    } else if (!button1.delayConnected && button1.distConnected) {
+      button1.delayConnected = true;
+      button2.delayConnected = true;
+      button3.delayConnected = true;
+      button4.delayConnected = true;
+      button5.delayConnected = true;
+      button6.delayConnected = true;
+      fmSynth1.chain(dist, delay, Tone.Master);
     } else {
       button1.delayConnected = true;
-      fmSynth1.chain(dist, delay, Tone.Master);
+      fmSynth1.chain(delay, Tone.Master);
     }
   }
-  if (key === 'x') {
-    if (button2.delayConnected) {
-      button2.delayConnected = false;
-      delay.disconnect(fmSynth2);
-    } else {
-      button2.delayConnected = true;
-      fmSynth2.chain(dist, delay, Tone.Master);
-    }
-  }
-  if (key === 'c') {
-    if (button3.delayConnected) {
-      button3.delayConnected = false;
-      delay.disconnect(fmSynth3);
-    } else {
-      button3.delayConnected = true;
-      fmSynth3.chain(dist, delay, Tone.Master);
-    }
-  }
-  if (key === 'v') {
-    if (button4.delayConnected) {
-      button4.delayConnected = false;
-      delay.disconnect(fmSynth4);
-    } else {
-      button4.delayConnected = true;
-      fmSynth4.chain(dist, delay, Tone.Master);
-    }
-  }
-  if (key === 'b') {
-    if (button5.delayConnected) {
-      button5.delayConnected = false;
-      delay.disconnect(fmSynth5);
-    } else {
-      button5.delayConnected = true;
-      fmSynth5.chain(dist, delay, Tone.Master);
-    }
-  }
-  if (key === 'n') {
-    if (button6.delayConnected) {
-      button6.delayConnected = false;
-      delay.disconnect(fmSynth6);
-    } else {
-      button6.delayConnected = true;
-      fmSynth6.chain(dist, delay, Tone.Master);
-    }
-  }
+  // if (key === 's') {
+  //   if (button2.delayConnected) {
+  //     button2.delayConnected = false;
+  //     delay.disconnect(fmSynth2);
+  //     fmSynth2.chain(dist, Tone.Master);
+  //   } else {
+  //     button2.delayConnected = true;
+  //     fmSynth2.chain(dist, delay, Tone.Master);
+  //   }
+  // }
+  // if (key === 'd') {
+  //   if (button3.delayConnected) {
+  //     button3.delayConnected = false;
+  //     delay.disconnect(fmSynth3);
+  //   } else {
+  //     button3.delayConnected = true;
+  //     fmSynth3.chain(dist, delay, Tone.Master);
+  //   }
+  // }
+  // if (key === 'f') {
+  //   if (button4.delayConnected) {
+  //     button4.delayConnected = false;
+  //     delay.disconnect(fmSynth4);
+  //   } else {
+  //     button4.delayConnected = true;
+  //     fmSynth4.chain(dist, delay, Tone.Master);
+  //   }
+  // }
+  // if (key === 'g') {
+  //   if (button5.delayConnected) {
+  //     button5.delayConnected = false;
+  //     delay.disconnect(fmSynth5);
+  //   } else {
+  //     button5.delayConnected = true;
+  //     fmSynth5.chain(dist, delay, Tone.Master);
+  //   }
+  // }
+  // if (key === 'h') {
+  //   if (button6.delayConnected) {
+  //     button6.delayConnected = false;
+  //     delay.disconnect(fmSynth6);
+  //   } else {
+  //     button6.delayConnected = true;
+  //     fmSynth6.chain(dist, delay, Tone.Master);
+  //   }
+  // }
+
+  // if (key === 'z') {
+  //   if (button1.distConnected && button1.delayConnected) {
+  //     button1.distConnected = false;
+  //     dist.disconnect(fmSynth1);
+  //     fmSynth1.chain(delay, Tone.Master);
+  //   } else if (button1.distConnected && !button1.delayConnected) {
+  //     button1.distConnected = false;
+  //     dist.disconnect(fmSynth1);
+  //     fmSynth1.chain(Tone.Master);
+  //   } else if (!button1.distConnected && button1.delayConnected) {
+  //     button1.distConnected = true;
+  //     fmSynth1.chain(dist, delay, Tone.Master);
+  //   } else if (!button1.distConnected && !button1.delayConnected) {
+  //     button1.distConnected = true;
+  //     fmSynth1.chain(dist, Tone.Master);
+  //   }
+  // }
 
 }
 
