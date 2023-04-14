@@ -128,7 +128,7 @@ function draw() { //BEGIN DRAW
   increaseDistortion();
   displayButtons();
   delayConnector.display();
-  // distConnector.display();
+  distConnector.display();
   displayPresets();
 
   //NEED TO FIX THIS
@@ -272,7 +272,6 @@ function keyPressed() {
   } else if (keyCode === LEFT_ARROW && presetCount === 0) {
     presetCount = 5;
     switchPreset(presetsArray[presetCount]);
-
   }
 
   if (!playing) {
@@ -360,6 +359,9 @@ function keyPressed() {
       fmSynth1.chain(delay, Tone.Master);
     }
   }
+
+
+
   // if (key === 's') {
   //   if (button2.delayConnected) {
   //     button2.delayConnected = false;
