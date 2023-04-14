@@ -1,3 +1,21 @@
+/* -XMAS RECORD: QUAKING VERSION-
+
+loud voice-controlled instrument for improvised performances
+
+INSTRUCTIONS:
+
+Start it up by pressing 'p'. The drones will play on for a while. If they stop you can press 'p' again.
+
+QWERTY keys toggle "live mode" for each tone. When these are active you can control the pitch of the tone with your voice (through a microphone). 
+Once set, the frequency is locked in if you make it unlive until you change to a different preset (explained below).
+You can see that it's in "live mode" if the texture on the cube changes from the letter to fire.
+(Try whistling, hissing and sucking in air with gritted teeth for high frequencies. Outcomes probably differ from mouth to mouth.)
+
+Left and right arrow keys change presets. This will affect all tones not currently in "live mode".
+
+'s' key toggles the delay effect on all the sounds. You can see this is active if the white lines are connecting the cloud globe at the bottom to the tone cubes at the top.
+
+  */
 
 
 let pitchDisplay;
@@ -115,7 +133,7 @@ function draw() { //BEGIN DRAW
 
   //NEED TO FIX THIS
 
-  // pitchDisplay = map(pitch, 0, pitch, 0, 100);
+  // pitchDisplay = map(pitch, 300, 2000, 0, 300);
   // push();
   // translate(-width / 2, 0, 0);
   // translate(pitchDisplay, 0, 0);
