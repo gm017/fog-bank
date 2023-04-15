@@ -1,13 +1,16 @@
+//This is the class from which the 'buttons' at the top of the screen are created. 
 class SynthButton {
     constructor(xPos, yPos, size, boxTexture, delayConnected, distConnected) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.size = size;
-        this.live = 0;
-        this.boxTexture = boxTexture;
-        this.delayConnected = delayConnected;
-        this.distConnected = distConnected;
+        this.xPos = xPos; //x Position
+        this.yPos = yPos; // y Position
+        this.size = size; //Size of the cube
+        this.live = 0; // Live state
+        this.boxTexture = boxTexture; //Cube texture
+        this.delayConnected = delayConnected; //Takes a boolean value which controls the state of connection to the delay effect
+        this.distConnected = distConnected; //Takes a bollean value which controls the state of connection to the distortion effect
     }
+
+    //Changes the colour of the background square if the object is 'live'.
     display() {
         if (this.live === 0) {
             fill(255, 0, 130);
@@ -17,6 +20,7 @@ class SynthButton {
 
         rect(this.xPos, this.yPos, this.size, this.size);
 
+        //Changes the texture and rotation of the cube dependong on live state.
         push();
         fill(0);
         translate(50, 0, 0);

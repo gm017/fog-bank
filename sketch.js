@@ -327,7 +327,9 @@ function keyPressed() {
     switchPreset(presetsArray[presetCount]);
   } else if (keyCode === RIGHT_ARROW && presetCount === 5) {
     presetCount = 0;
-    makeRotation = true;
+    if (screenRotateCount === 0) {
+      makeRotation = true;
+    }
     switchPreset(presetsArray[presetCount]);
   }
   if (keyCode === LEFT_ARROW && presetCount > 0) {
@@ -335,7 +337,9 @@ function keyPressed() {
     switchPreset(presetsArray[presetCount]);
   } else if (keyCode === LEFT_ARROW && presetCount === 0) {
     presetCount = 5;
-    makeRotation2 = true;
+    if (screenRotateCount === 0) {
+      makeRotation2 = true;
+    }
     switchPreset(presetsArray[presetCount]);
   }
 

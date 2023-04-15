@@ -1,3 +1,4 @@
+//This class creates the objects which hold frequency values for the six preset settings
 class PresetValues {
     constructor(synth1Freq, synth2Freq, synth3Freq, synth4Freq, synth5Freq, synth6Freq) {
         this.synth1Freq = synth1Freq;
