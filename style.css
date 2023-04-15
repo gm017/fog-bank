@@ -1,8 +1,21 @@
+@font-face {
+  font-family: 'magic';
+  src: URL('fonts/magic.ttf') format('truetype');
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
+  font-family: 'magic';
+  background-color: antiquewhite;
 }
+
+h1 {
+  font-size: 35px;
+}
+
+button {}
 
 canvas {
   display: block;

@@ -1,5 +1,7 @@
 /* -XMAS RECORD: QUAKING VERSION-
 
+-Gabriel Manzi-
+
 loud voice-controlled instrument for improvised performances
 
 INSTRUCTIONS:
@@ -15,7 +17,11 @@ Left and right arrow keys change presets. This will affect all tones not current
 
 's' key toggles the delay effect on all the sounds. You can see this is active if the white lines are connecting the cloud globe at the bottom to the tone cubes at the top.
 
-  */
+ACKNOWLEDGMENTS:
+
+Pitch detection stuff is all taken from https://github.com/cwilso/PitchDetect. This is in js/pitchdetect.js and some of the index.html. 
+
+*/
 
 
 let pitchDisplay;
@@ -53,9 +59,6 @@ let dist;
 let delay;
 
 let presetBeat = false;
-
-// let drone01, drone02, drone03, drone04, drone05, drone06, drone07, drone08, drone09, drone10, drone11, drone12, drone13, drone14, drone15, drone16, drone17, drone18;
-// let dronesArray = [];
 
 let pitchArray = [];
 
@@ -174,7 +177,6 @@ function voiceControlPitch() {
       if (button4.live === 1) {
         fmSynth4.frequency.value = pitch + 1000;
         fmSynth4.harmonicity.value = 4.2;
-
       }
       if (button5.live === 1) {
         fmSynth5.frequency.value = pitch + 1000;
@@ -188,7 +190,6 @@ function voiceControlPitch() {
       if (button1.live === 1) {
         fmSynth1.frequency.value = pitch - 500 + 40;
         fmSynth1.harmonicity.value = -0.5;
-
       }
       if (button2.live === 1) {
         fmSynth2.frequency.value = pitch * 2 - 500 + 59;
@@ -280,17 +281,12 @@ function keyPressed() {
 
 
   if (key === 'p') {
-
-    console.log(presetCount);
-
     fmSynth1.triggerAttackRelease(40, 1200);
     fmSynth2.triggerAttackRelease(41, 1200);
     fmSynth3.triggerAttackRelease(42, 1200);
     fmSynth4.triggerAttackRelease(193, 1200);
     fmSynth5.triggerAttackRelease(194, 1200);
     fmSynth6.triggerAttackRelease(95, 1200);
-
-
   }
 
   if (key === 'q') {
@@ -336,7 +332,6 @@ function keyPressed() {
     }
   }
 
-
   if (key === 'a') {
     if (button1.delayConnected) {
       button1.delayConnected = false;
@@ -359,8 +354,6 @@ function keyPressed() {
       fmSynth1.chain(delay, Tone.Master);
     }
   }
-
-
 
   // if (key === 's') {
   //   if (button2.delayConnected) {
