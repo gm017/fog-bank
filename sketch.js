@@ -19,6 +19,7 @@ Left and right arrow keys change presets. This will affect all tones not current
 
 's' key toggles the delay effect on all the sounds. You can see this is active if the white lines are connecting the cloud globe at the bottom to the tone cubes at the top.
 
+
 ACKNOWLEDGMENTS:
 
 Pitch detection stuff is all taken from https://github.com/cwilso/PitchDetect. This is in js/pitchdetect.js and some of the index.html. 
@@ -41,6 +42,7 @@ let button6;
 let dist;
 let delay;
 let synth;
+let limiter;
 
 let fmSynth1;
 let fmSynth2;
@@ -60,6 +62,7 @@ let presetDisplay6
 let fire;
 let cloud;
 let compass;
+let shield;
 let qImg;
 let wImg;
 let eImg;
@@ -84,6 +87,7 @@ function preload() {
   fire = loadImage('img/fire.jpeg');
   cloud = loadImage('img/cloud.jpeg');
   compass = loadImage('img/compass.jpeg');
+  shield = loadImage('img/shield.jpeg');
   qImg = loadImage('img/q.png');
   wImg = loadImage('img/w.png');
   eImg = loadImage('img/e.png');
@@ -100,6 +104,8 @@ function setup() {
   dist = new Tone.Chebyshev(distCount);
   delay = new Tone.FeedbackDelay("4n", 0.2);
 
+  limiter = new Tone.Limiter(-20).toMaster();
+
   fmSynth1 = new Tone.FMSynth();
   fmSynth2 = new Tone.FMSynth();
   fmSynth3 = new Tone.FMSynth();
@@ -107,12 +113,12 @@ function setup() {
   fmSynth5 = new Tone.FMSynth();
   fmSynth6 = new Tone.FMSynth();
 
-  fmSynth1.chain(dist, Tone.Master);
-  fmSynth2.chain(dist, Tone.Master);
-  fmSynth3.chain(dist, Tone.Master);
-  fmSynth4.chain(dist, Tone.Master);
-  fmSynth5.chain(dist, Tone.Master);
-  fmSynth6.chain(dist, Tone.Master);
+  fmSynth1.chain(dist, limiter, Tone.Master);
+  fmSynth2.chain(dist, limiter, Tone.Master);
+  fmSynth3.chain(dist, limiter, Tone.Master);
+  fmSynth4.chain(dist, limiter, Tone.Master);
+  fmSynth5.chain(dist, limiter, Tone.Master);
+  fmSynth6.chain(dist, limiter, Tone.Master);
 
   //Create buttons at the top with the floating cubes from the SynthButton class. These represent the six tones playing.
   button1 = new SynthButton(0, 0, 100, qImg, false, true);
@@ -145,8 +151,7 @@ function setup() {
   delayConnector = new DelayConnectors(0, 50, 25);
 
   //Object from teh DistConnectors class which shows whether the distortion effect is connected to the synths with the floating compass globe.
-  distConnector = new DistConnectors(0, 200, 25);
-
+  distConnector = new DistConnectors(0, 200, 25, 0);
 }
 
 function draw() { //BEGIN DRAW
@@ -158,8 +163,9 @@ function draw() { //BEGIN DRAW
   voiceControlPitch();
   displayButtons();
   delayConnector.display();
-  distConnector.display();
   displayPresets();
+  distConnector.display();
+  distConnector.distortionShapes();
 
   //NEED TO FIX THIS
 
@@ -271,14 +277,14 @@ function displayPresets() {
   pop();
 }
 
-//NEED TO FIX
-// function increaseDistortion() {
-//   if (distCount < 100) {
-//     distCount += 0.1;
-//   } else {
-//     distCount = 3;
-//   }
-// }
+// NEED TO FIX
+function increaseDistortion() {
+  if (distCount < 100) {
+    distCount += 0.3;
+  } else {
+    distCount = 3;
+  }
+}
 
 //When the user changes to a new preset, this assigns new frequency values to the synths from presetsArray, which contains the objects with the values.
 function switchPreset(vals) {
@@ -421,86 +427,19 @@ function keyPressed() {
       button4.delayConnected = true;
       button5.delayConnected = true;
       button6.delayConnected = true;
-      fmSynth1.chain(dist, delay, Tone.Master);
+      fmSynth1.chain(dist, delay, limiter, Tone.Master);
     } else {
       button1.delayConnected = true;
-      fmSynth1.chain(delay, Tone.Master);
+      fmSynth1.chain(delay, limiter, Tone.Master);
     }
   }
 
-  // if (key === 's') {
-  //   if (button2.delayConnected) {
-  //     button2.delayConnected = false;
-  //     delay.disconnect(fmSynth2);
-  //     fmSynth2.chain(dist, Tone.Master);
-  //   } else {
-  //     button2.delayConnected = true;
-  //     fmSynth2.chain(dist, delay, Tone.Master);
-  //   }
-  // }
-  // if (key === 'd') {
-  //   if (button3.delayConnected) {
-  //     button3.delayConnected = false;
-  //     delay.disconnect(fmSynth3);
-  //   } else {
-  //     button3.delayConnected = true;
-  //     fmSynth3.chain(dist, delay, Tone.Master);
-  //   }
-  // }
-  // if (key === 'f') {
-  //   if (button4.delayConnected) {
-  //     button4.delayConnected = false;
-  //     delay.disconnect(fmSynth4);
-  //   } else {
-  //     button4.delayConnected = true;
-  //     fmSynth4.chain(dist, delay, Tone.Master);
-  //   }
-  // }
-  // if (key === 'g') {
-  //   if (button5.delayConnected) {
-  //     button5.delayConnected = false;
-  //     delay.disconnect(fmSynth5);
-  //   } else {
-  //     button5.delayConnected = true;
-  //     fmSynth5.chain(dist, delay, Tone.Master);
-  //   }
-  // }
-  // if (key === 'h') {
-  //   if (button6.delayConnected) {
-  //     button6.delayConnected = false;
-  //     delay.disconnect(fmSynth6);
-  //   } else {
-  //     button6.delayConnected = true;
-  //     fmSynth6.chain(dist, delay, Tone.Master);
-  //   }
-  // }
-
-  // if (key === 'z') {
-  //   if (button1.distConnected && button1.delayConnected) {
-  //     button1.distConnected = false;
-  //     dist.disconnect(fmSynth1);
-  //     fmSynth1.chain(delay, Tone.Master);
-  //   } else if (button1.distConnected && !button1.delayConnected) {
-  //     button1.distConnected = false;
-  //     dist.disconnect(fmSynth1);
-  //     fmSynth1.chain(Tone.Master);
-  //   } else if (!button1.distConnected && button1.delayConnected) {
-  //     button1.distConnected = true;
-  //     fmSynth1.chain(dist, delay, Tone.Master);
-  //   } else if (!button1.distConnected && !button1.delayConnected) {
-  //     button1.distConnected = true;
-  //     fmSynth1.chain(dist, Tone.Master);
-  //   }
-  // }
-
+  if (key === 'd' && distConnector.moveSphere > -350 && distConnector.moveSphere < 350) {
+    distConnector.changeLevel();
+  }
 }
 
 function mouseClicked() {
-
-  //NEED TO FIX/ALTER/DELTE
-  // if (mouseY > 300) {
-  //   presetBeat = true;
-  // }
 
   //Mouse clicks can be used to toggle 'live mode' on the synths as an alternative to using the QWERTY keys.
   if (mouseY > 0 && mouseY < 100) {

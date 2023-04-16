@@ -45,7 +45,6 @@ class DelayConnectors {
         if (button6.delayConnected) {
             line(this.xPos + this.moveSphere, this.yPos, 250, -150);
         }
-
-
     }
+
 }

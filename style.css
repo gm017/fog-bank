@@ -13,9 +13,10 @@ body {
 
 h1 {
   font-size: 35px;
+  text-decoration: underline;
+  font-style: italic;
+  margin-bottom: -20px;
 }
-
-button {}
 
 canvas {
   display: block;
