@@ -157,6 +157,7 @@ function setup() {
 function draw() { //BEGIN DRAW
   background(255, 100, 100);
 
+
   //Functions to occur during the draw loop.
   rotateScreenRight();
   rotateScreenLeft();

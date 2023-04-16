@@ -30,7 +30,7 @@ class DistConnectors {
         }
 
         noStroke();
-        fill(30, 50, 70);
+        fill(30, 120, 70);
         rect(-300, 100, 600, 100);
         if (this.isHome) {
             fill(homeColour);
@@ -116,24 +116,3 @@ class DistConnectors {
     }
 }
 
-
-
-
-// if ((this.xPos + this.moveSphere) < -250) {
-//     dist.set('order', 3);
-// }
-// if ((this.xPos + this.moveSphere) >= -250 && (this.xPos + this.moveSphere) < -150) {
-//     dist.set('order', 16);
-// }
-// if ((this.xPos + this.moveSphere) >= 150 && (this.xPos + this.moveSphere) < 250) {
-//     dist.set('order', 26);
-// }
-// if ((this.xPos + this.moveSphere) >= 250 && (this.xPos + this.moveSphere) < 350) {
-//     dist.set('order', 5);
-// }
-// if ((this.xPos + this.moveSphere) >= 350 && (this.xPos + this.moveSphere) < 450) {
-//     dist.set('order', 15);
-// }
-// if ((this.xPos + this.moveSphere) >= 450 && (this.xPos + this.moveSphere) < 550) {
-//     dist.set('order', 15);
-// }
