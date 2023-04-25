@@ -1,4 +1,4 @@
-/* -XMAS RECORD: QUAKING VERSION-
+/* -FOG BANK (XMAS VERSION)-
 
 -Gabriel Manzi-
 
