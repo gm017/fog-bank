@@ -17,7 +17,7 @@ You can see that it's in "live mode" if the texture on the cube changes from the
 
 Left and right arrow keys change presets. This will affect all tones not currently in "live mode".
 
-'s' key toggles the delay effect on all the sounds. You can see this is active if the white lines are connecting the cloud globe at the bottom to the tone cubes at the top.
+'a' key toggles the delay effect on all the sounds. You can see this is active if the white lines are connecting the cloud globe at the bottom to the tone cubes at the top.
 
 
 ACKNOWLEDGMENTS:
@@ -157,7 +157,6 @@ function setup() {
 function draw() { //BEGIN DRAW
   background(255, 100, 100);
 
-
   //Functions to occur during the draw loop.
   rotateScreenRight();
   rotateScreenLeft();
@@ -167,27 +166,6 @@ function draw() { //BEGIN DRAW
   displayPresets();
   distConnector.display();
   distConnector.distortionShapes();
-
-  //NEED TO FIX THIS
-
-  // pitchDisplay = map(pitch, 300, 2000, 0, 300);
-  // push();
-  // translate(-width / 2, 0, 0);
-  // translate(pitchDisplay, 0, 0);
-  // fill(0, 255, 0)
-  // box(50)
-  // pop();
-
-  // if (presetBeat) {
-  //   if (presetCount < 5) {
-  //     if (frameCount % 30 === 0) {
-  //       presetCount++;
-  //       switchPreset(presetsArray[presetCount]);
-  //     }
-  //   } else if (frameCount % 30 === 0 && presetCount === 5) {
-  //     presetCount = 0;
-  //   }
-  // }
 }
 
 //Takes the pitch from the users microphone and uses it to alter the frequencies of the synths. 
