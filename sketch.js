@@ -23,6 +23,7 @@ Left and right arrow keys change presets. This will affect all tones not current
 ACKNOWLEDGMENTS:
 
 Pitch detection stuff is all taken from https://github.com/cwilso/PitchDetect. This is in js/pitchdetect.js and some of the index.html. 
+Audio stuff is done with Tone.js (https://tonejs.github.io/).
 
 */
 
