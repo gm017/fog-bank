@@ -257,14 +257,6 @@ function displayPresets() {
   pop();
 }
 
-// NEED TO FIX
-function increaseDistortion() {
-  if (distCount < 100) {
-    distCount += 0.3;
-  } else {
-    distCount = 3;
-  }
-}
 
 //When the user changes to a new preset, this assigns new frequency values to the synths from presetsArray, which contains the objects with the values.
 function switchPreset(vals) {
