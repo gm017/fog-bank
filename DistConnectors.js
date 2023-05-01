@@ -80,9 +80,8 @@ class DistConnectors {
         this.distLvl = Math.round(map(this.xPos + this.moveSphere, -352, 350, 3, 85));
 
     }
-    changeLevel() {
-        console.log(this.distLvl);
 
+    changeLevel() {
         if (this.moveSphere < -220) {
             dist.set('order', 3);
             if (!this.isHome) {
@@ -94,6 +93,7 @@ class DistConnectors {
             this.isHome = false;
         }
     }
+
     distortionShapes() {
         if (this.isHome) {
             push();
