@@ -14,3 +14,4 @@ delay on / off with 'a' key
 
 adjust distortion based on sphere pos with 'd' key
 
+example recording: https://prfogbank.bandcamp.com/album/entertainers-dream
